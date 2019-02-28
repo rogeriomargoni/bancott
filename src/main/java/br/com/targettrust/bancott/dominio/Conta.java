@@ -15,6 +15,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name="contas")
 public class Conta {
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)	
+
+	
 	
 	@Column(name="numero")
 	private Long numero;
@@ -26,6 +31,7 @@ public class Conta {
 	private Double saldo;
 	
 	@JoinColumn(name="fk_cliente_id", nullable=false)
+	@ManyToOne
 	private Cliente cliente;
 
 	@JoinColumn(name="fk_agencia_numero", nullable=false, insertable=true, updatable=true)
@@ -34,9 +40,6 @@ public class Conta {
 	
 	@Column(name="data_abertura")
 	private Calendar data_abertura;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)	
 	
 	
 	public Cliente getCliente() {
@@ -75,5 +78,8 @@ public class Conta {
 	public void setData_abertura(Calendar data_abertura) {
 		this.data_abertura = data_abertura;
 	}	
+	
+	
+	
 	
 }

@@ -3,21 +3,37 @@ package br.com.targettrust.bancott.dominio;
 import java.util.Calendar;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "transacoes")
 public class Transacao {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+
+	
 	@Column(name="id")
 	private Long id;
 	
 	
+	
+	
+
 	@JoinColumn(name="fk_conta_numero_origem" , nullable=false, insertable=true, updatable=true)
+	@ManyToOne
+	private Conta contaNumeroOrigem;
+
+	
 	@JoinColumn(name="fk_conta_numero_destino", nullable=false, insertable=true, updatable=true)
 	@ManyToOne
-
-	private Conta conta_numero_origem;
-	private Conta conta_numero_destino;
+	private Conta contaNumeroDestino;
 	
 	
 	@Column(name="tipo")
@@ -32,16 +48,16 @@ public class Transacao {
 	
 	
 	public Conta getConta_numero_origem() {
-		return conta_numero_origem;
+		return contaNumeroOrigem;
 	}
 	public void setConta_numero_origem(Conta conta_numero_origem) {
-		this.conta_numero_origem = conta_numero_origem;
+		this.contaNumeroOrigem = conta_numero_origem;
 	}
 	public Conta getConta_numero_destino() {
-		return conta_numero_destino;
+		return contaNumeroDestino;
 	}
 	public void setConta_numero_destino(Conta conta_numero_destino) {
-		this.conta_numero_destino = conta_numero_destino;
+		this.contaNumeroDestino = conta_numero_destino;
 	}
 	public Long getId() {
 		return id;

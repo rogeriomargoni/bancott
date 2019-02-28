@@ -6,13 +6,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "clientes")
 public class Cliente {
 	
+	
+	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	
-	
+
 	@Column(name="id")
 	private Long id;
 	
@@ -29,10 +33,10 @@ public class Cliente {
 	private String cpf;
 	
 	@Column(name="data_nascimento")
-	private Calendar data_nascimento;
+	private Calendar dataNascimento;
 	
 	@Column(name="nome_mae")
-	private String nome_mae;
+	private String nomeMae;
 	
 	
 	
@@ -67,16 +71,16 @@ public class Cliente {
 		this.cpf = cpf;
 	}
 	public Calendar getData_nascimento() {
-		return data_nascimento;
+		return dataNascimento;
 	}
 	public void setData_nascimento(Calendar data_nascimento) {
-		this.data_nascimento = data_nascimento;
+		this.dataNascimento = data_nascimento;
 	}
 	public String getNome_mae() {
-		return nome_mae;
+		return nomeMae;
 	}
 	public void setNome_mae(String nome_mae) {
-		this.nome_mae = nome_mae;
+		this.nomeMae = nome_mae;
 	}
 	
 	
