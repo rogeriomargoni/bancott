@@ -19,11 +19,13 @@ public class BancottApplicationTests {
 	@Test
 	public void contextLoads() {
 
-		Agencia agencia = agenciaDao.findById(7L).get();
+		Agencia agencia = agenciaDao.findById(15L).get();
+		//Agencia agencia = new Agencia();
 		agencia.setNome("Teste Rogerio");
 		agencia.setEndereco("Av. Carlos Gomes, 1700");
 		
-		agenciaDao.save(agencia);
+		//agenciaDao.save(agencia);
+		agenciaDao.delete(agencia);
 			
 	}
 
