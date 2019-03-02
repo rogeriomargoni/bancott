@@ -1,8 +1,11 @@
 package br.com.targettrust.bancott.dominio;
 
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +32,9 @@ public class Agencia {
 	private String  cnpj;
 	
 	
-	@OneToMany(mappedBy="agencia")
+	//@OneToMany(mappedBy="agencia")
+	
+	@OneToMany(mappedBy="agencia", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Conta> contas;
 	
 	

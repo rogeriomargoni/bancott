@@ -2,6 +2,7 @@ package br.com.targettrust.bancott.dominio;
 
 import java.util.Calendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,11 +32,13 @@ public class Conta {
 	private Double saldo;
 	
 	@JoinColumn(name="fk_cliente_id", nullable=false)
-	@ManyToOne
-	private Cliente cliente;
-
+	@ManyToOne(cascade=CascadeType.ALL)
+	private Cliente cliente;	
+	
+	
+	
 	@JoinColumn(name="fk_agencia_numero", nullable=false, insertable=true, updatable=true)
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Agencia agencia;
 	
 	@Column(name="data_abertura")

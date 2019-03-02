@@ -6,5 +6,6 @@ import br.com.targettrust.bancott.dominio.Agencia;
 public interface AgenciaDAOCustom {
 
 	List<Agencia> findLikePeloNome(String stringBusca);
+	List<Agencia> findLikePeloEndereco(String stringBusca);
 	
 }

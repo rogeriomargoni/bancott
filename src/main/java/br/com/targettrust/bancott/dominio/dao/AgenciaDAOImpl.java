@@ -27,4 +27,19 @@ public class AgenciaDAOImpl implements AgenciaDAOCustom {
 		return query.getResultList();
 	}
 
+	
+	@Override
+	public List<Agencia> findLikePeloEndereco(String stringBusca) {
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("select a.* ");
+		stringBuilder.append("from agencias a ");
+		stringBuilder.append("where upper(a.endereco) like ?");
+		
+		Query query = entityManager.createNativeQuery(stringBuilder.toString(), Agencia.class);
+		query.setParameter(1, "%"+stringBusca.toUpperCase()+"%");
+		
+		return query.getResultList();
+	}
+
 }
