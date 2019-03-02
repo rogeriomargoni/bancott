@@ -38,14 +38,10 @@ public class BancottApplicationTests {
 		Conta c1 = new Conta();
 		c1.setCliente(cliente);
 		c1.setAgencia(ag1);
-		
-		Conta c2 = new Conta();
-		c2.setCliente(cliente);
-		c2.setAgencia(ag1);
+		c1.setSaldo(5000.0);
 		
 		List<Conta> contas = new ArrayList<>();
 		contas.add(c1);
-		contas.add(c2);
 		
 		ag1.setContas(contas);
 		

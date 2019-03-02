@@ -31,10 +31,10 @@ public class Conta {
 	@Column(name="saldo")
 	private Double saldo;
 	
+	
 	@JoinColumn(name="fk_cliente_id", nullable=false)
 	@ManyToOne(cascade=CascadeType.ALL)
 	private Cliente cliente;	
-	
 	
 	
 	@JoinColumn(name="fk_agencia_numero", nullable=false, insertable=true, updatable=true)
