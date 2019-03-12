@@ -1,4 +1,4 @@
-package br.com.targettrust.bancott.dominio.helloworld;
+package br.com.targettrust.bancott.dominio;
 
 public class HelloWorld {
 	private String mensagem;
