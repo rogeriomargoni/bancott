@@ -28,7 +28,6 @@ public class ClienteResource {
 	public List<Cliente> obtemClientes() {
 		return clienteDao.findAll();
 	}
-
 	
 	@GetMapping(path = "/clientes/{id}")
 	public Optional<Cliente> obtemClientesId(@PathVariable Long id) {
