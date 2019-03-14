@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 
 @Entity
 @Table(name = "clientes")
@@ -32,11 +35,18 @@ public class Cliente {
 	@Column(name="cpf")
 	private String cpf;
 	
+	@Temporal(TemporalType.DATE) 
 	@Column(name="data_nascimento")
 	private Calendar dataNascimento;
 	
 	@Column(name="nome_mae")
 	private String nomeMae;
+	
+	
+	@Column(name="email")
+	@Email
+	private String email;
+	
 	
 	
 	

@@ -3,6 +3,9 @@ package br.com.targettrust.bancott.resources;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +46,7 @@ public class AgenciaResource {
 	}
 		
 	@PostMapping(path = "/agencias")
-	public ResponseEntity criarAgencia(@RequestBody Agencia agencia) {
+	public ResponseEntity criarAgencia(@Valid @RequestBody Agencia agencia) {
 		Agencia agenciaSalva = agenciaDao.save(agencia);
 		
 		

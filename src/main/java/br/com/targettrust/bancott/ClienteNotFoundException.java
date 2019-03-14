@@ -4,12 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class ContaNotFoundException extends RuntimeException {
-
-	private String mensagem = "Conta não encontrada.";
+public class ClienteNotFoundException extends RuntimeException {
 	
-	public ContaNotFoundException(String mensagem) {
+	public ClienteNotFoundException(String mensagem) {
 		super(mensagem);
 	}
-	
 }
+

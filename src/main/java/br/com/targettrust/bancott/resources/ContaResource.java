@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -53,15 +55,13 @@ public class ContaResource {
 		contaDTO.setSaldo(contaSalva.getSaldo());
 
 		return contaDTO;
-		
 	}
 	
 	
 	
 	@PutMapping(path = "/contas/{id}")
-	public void atualizarSaldo(@RequestBody ContaDTO contaDTO, @PathVariable Long id) {
+	public void atualizarSaldo(@Valid @RequestBody ContaDTO contaDTO, @PathVariable Long id) {
 
-		
 		Optional<Conta> contaOPtional = contaDao.findById(id);
 		
 		if (contaOPtional.isPresent()) {
@@ -71,25 +71,14 @@ public class ContaResource {
 			
 			contaDao.save(conta);
 		} else {
-			
 			throw new ContaNotFoundException("A conta informada não foi encontrada");
-			
 		}	
-		
-		
-		
 		
 		/*		
 		Conta contaAtualizar = contaDao.findById(id).get();
-		
 		contaAtualizar.setSaldo(contaDTO.getSaldo());
-		
 		contaDao.save(contaAtualizar);
-		
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-												  .path("/{id}")
-												  .buildAndExpand(contaAtualizar.getNumero()).toUri();
-
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(contaAtualizar.getNumero()).toUri();
 		return ResponseEntity.created(location).build();
 		*/
 	}
@@ -104,21 +93,24 @@ public class ContaResource {
 	
 	
 	@PostMapping(path = "/contas/{agenciaNumero}/{idCliente}")
-	public ResponseEntity criarConta(@RequestBody ContaDTO contaDTO, 
-									 @PathVariable Long agenciaNumero, 
-									 @PathVariable Long idCliente ) {
+	public ResponseEntity criarConta(@RequestBody ContaDTO contaDTO,@PathVariable Long agenciaNumero,@PathVariable Long idCliente ) {
 		
 		Conta novaConta = new Conta();
 
 		if(contaDTO != null) {
 			novaConta.setSaldo(contaDTO.getSaldo());
 		}
+
+		Optional<Agencia> agenciaOPtional = agenciaDao.findById(agenciaNumero);
+		Optional<Cliente> clienteOPtional = clienteDao.findById(idCliente);
+
+		if (agenciaOPtional.isPresent() || clienteOPtional.isPresent()) {
+			novaConta.setAgencia(agenciaOPtional.get());
+			novaConta.setCliente(clienteOPtional.get());
+		} else {
+			throw new ContaNotFoundException("Agencia ou Cliente não foram encontrados");
+		}	
 		
-		Agencia agencia = agenciaDao.findById(agenciaNumero).get();
-		novaConta.setAgencia(agencia);
-		
-		Cliente cliente = clienteDao.findById(idCliente).get();
-		novaConta.setCliente(cliente);
 		
 		Conta contaSalva = contaDao.save(novaConta);
 				
@@ -129,6 +121,4 @@ public class ContaResource {
 		
 		return ResponseEntity.created(location).build();
 	}
-	
-	
 }

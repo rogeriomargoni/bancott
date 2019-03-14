@@ -1,10 +1,14 @@
 package br.com.targettrust.bancott.dominio;
 
+import javax.validation.constraints.Positive;
+
 public class ContaDTO {
+	
 	private String numeroConta;
 	private String numeroAgencia;
 	private String nomeCliente;
 	
+	@Positive
 	private Double saldo;
 
 	public String getNumeroConta() {
