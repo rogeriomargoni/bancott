@@ -3,19 +3,23 @@ package br.com.targettrust.bancott.resources;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.targettrust.bancott.ContaNotFoundException;
 import br.com.targettrust.bancott.dominio.Agencia;
 import br.com.targettrust.bancott.dominio.AgenciaDTO;
 import br.com.targettrust.bancott.dominio.Cliente;
@@ -41,19 +45,62 @@ public class ContaResource {
 	public ContaDTO buscaConta(@PathVariable Long id) {
 		
 		Conta contaSalva = contaDao.findById(id).get();
-		
 		ContaDTO contaDTO = new ContaDTO();
 		
 		contaDTO.setNomeCliente(contaSalva.getCliente().getNome());
 		contaDTO.setNumeroAgencia(contaSalva.getAgencia().getNumero().toString());
 		contaDTO.setNumeroConta(contaSalva.getNumero().toString());
-		
-		
 		contaDTO.setSaldo(contaSalva.getSaldo());
 
 		return contaDTO;
 		
 	}
+	
+	
+	
+	@PutMapping(path = "/contas/{id}")
+	public void atualizarSaldo(@RequestBody ContaDTO contaDTO, @PathVariable Long id) {
+
+		
+		Optional<Conta> contaOPtional = contaDao.findById(id);
+		
+		if (contaOPtional.isPresent()) {
+			Conta conta = contaOPtional.get();
+			
+			conta.setSaldo(contaDTO.getSaldo());
+			
+			contaDao.save(conta);
+		} else {
+			
+			throw new ContaNotFoundException("A conta informada não foi encontrada");
+			
+		}	
+		
+		
+		
+		
+		/*		
+		Conta contaAtualizar = contaDao.findById(id).get();
+		
+		contaAtualizar.setSaldo(contaDTO.getSaldo());
+		
+		contaDao.save(contaAtualizar);
+		
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+												  .path("/{id}")
+												  .buildAndExpand(contaAtualizar.getNumero()).toUri();
+
+		return ResponseEntity.created(location).build();
+		*/
+	}
+	
+	
+	@DeleteMapping(path = "/contas/{id}")
+	public void deleteSaldo(@PathVariable Long id) {
+		Conta deletaConta = contaDao.findById(id).get();
+		contaDao.delete(deletaConta);
+	}
+
 	
 	
 	@PostMapping(path = "/contas/{agenciaNumero}/{idCliente}")
@@ -62,22 +109,19 @@ public class ContaResource {
 									 @PathVariable Long idCliente ) {
 		
 		Conta novaConta = new Conta();
-		
+
 		if(contaDTO != null) {
 			novaConta.setSaldo(contaDTO.getSaldo());
 		}
 		
 		Agencia agencia = agenciaDao.findById(agenciaNumero).get();
-		
 		novaConta.setAgencia(agencia);
 		
 		Cliente cliente = clienteDao.findById(idCliente).get();
-		
 		novaConta.setCliente(cliente);
 		
 		Conta contaSalva = contaDao.save(novaConta);
-		
-		
+				
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
